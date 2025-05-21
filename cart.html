@@ -1,0 +1,114 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script defer src="script.js"></script>
+</head>
+<body>
+<div id="toast" style="position: fixed; bottom: 20px; right: 20px; background: #333; color: #fff; padding: 10px 20px; border-radius: 8px; display: none; z-index: 1000;"></div>
+
+<header class="header">
+  <div class="navbar">
+    <div class="logo">X-Cart</div>
+    <div class="hamburger">&#9776;</div>
+    
+    <div id="search-wrapper">
+      <i class="search-icon fas fa-search"></i>
+      <input type="text" id="search" placeholder=" Search " />
+      <button id="search-button">Search</button>
+    </div>
+
+    <p id="no-result" style="display: none; color: red; margin-top: 10px;">No product found.</p>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Cart</a></li>
+    </ul>
+
+    <a href="tel:+919999999999" class="call-btn" id="callNowBtn">
+      <i class="fas fa-phone-alt"></i> Call Now
+    </a>
+  </div>
+</header>
+
+<section class="cart-section">
+  <div class="container">
+    <h2 class="section-title">Your Cart</h2>
+        <div id="orderUpdateBox" class="order-update-box" style="display: none;">
+       🔔 <span id="orderUpdateText"></span>
+        </div>
+
+    <!-- Empty Cart Message -->
+    <div class="empty-cart" id="emptyCart">
+      <img src="empty-cart.png" alt="Empty Cart" />
+      <p>Your cart is empty!</p>
+    </div>
+
+    <!-- Cart Grid -->
+    <div class="cart-grid" id="cartGrid">
+      <!-- Cart Items Left Side -->
+      <div class="cart-items">
+        <!-- Items will be injected by JS -->
+      </div>
+
+      <!-- Summary Right Side -->
+      <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <p>Subtotal: ₹<span id="subtotal">0</span></p>
+        <p>Tax: ₹<span id="tax">0</span></p>
+        <p>Total: ₹<span id="total">0</span></p>
+        <button id="checkout-btn" class="checkout-btn">Proceed to Checkout</button>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social links -->
+<aside class="_social-links">
+  <ul class="_links-list">
+    <li class="_social-link"><a href="https://twitter.com/ggsingla" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
+    <li class="_social-link"><a href="https://github.com/ggsingla" target="_blank"><i class="fa-brands fa-github"></i></a></li>
+    <li class="_social-link"><a href="mailto:ggsingla777@gmail.com" target="_blank"><i class="fa-solid fa-at"></i></a></li>
+  </ul>
+</aside>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>About Us</h3>
+      <p>We are passionate about delivering quality food and exceptional experiences.</p>
+    </div>
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="bestselling.html">Best Selling</a></li>
+        <li><a href="popular.html">Popular</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <ul>
+        <li>Email: info@restaurant.com</li>
+        <li>Phone: +91 701920190*</li>
+        <li>Address: 123 Food St, Culinary City</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <p>&copy; 2025 X-Cart.com | All rights reserved<br>By Official Mohammed Hafeez Ahmed.</p>
+  </div>
+</footer>
+
+</body>
+</html>

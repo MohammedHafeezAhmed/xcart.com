@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delivery Panel - XCart</title>
+  <link rel="stylesheet" href="delivery.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2 class="section-title">Delivery Panel</h2>
+
+    <div id="notAllowed" style="display: none; color: red; text-align: center;">
+      ❌ You are not logged in as a delivery person.
+    </div>
+
+    <div id="deliveryContent" style="display: none;">
+      <div class="customer-info-box">
+        <h3>Customer Info</h3>
+        <div id="customerInfoList"></div>
+      </div>
+
+<div id="mapBox" class="map-box">
+  <h3>Live Location</h3>
+  <iframe id="liveMap" width="100%" height="250" frameborder="0" style="border-radius: 8px;"></iframe>
+</div>
+
+
+      <div class="order-items-box">
+        <h3>Ordered Items</h3>
+        <ul id="orderList"></ul>
+      </div>
+
+      <div class="update-buttons">
+        <h3>Send Update to Customer</h3>
+        <button class="update-btn" data-message="Found a nearby shop">✅ Found a nearby shop</button>
+        <button class="update-btn" data-message="It may get late">⏱️ It may get late</button>
+        <button class="update-btn" data-message="Sorry, I could not catch up">❌ Sorry, I could not catch up</button>
+      </div>
+
+      <hr style="margin: 30px 0;">
+      <div style="text-align: center;">
+        <button id="markDeliveredBtn" class="update-btn" style="background-color: #d9230f;">Mark as Delivered</button>
+      </div>
+
+      <p id="updateStatus" style="color: green; margin-top: 20px; text-align: center;"></p>
+    </div>
+  </div>
+
+<a id="callCustomerBtn" class="fab" href="#">
+  <i class="fas fa-phone-alt"></i>
+</a>
+
+
+  <script>
+    const role = localStorage.getItem("userRole");
+    const deliveryContent = document.getElementById("deliveryContent");
+    const notAllowed = document.getElementById("notAllowed");
+
+    if (role !== "delivery") {
+      notAllowed.style.display = "block";
+    } else {
+      deliveryContent.style.display = "block";
+
+      // Load addresses
+      const infoList = JSON.parse(localStorage.getItem("customerInfoList") || "[]");
+      const infoContainer = document.getElementById("customerInfoList");
+
+      if (infoList.length === 0) {
+        infoContainer.innerHTML = "<p>No customer address found.</p>";
+      } else {
+        infoList.forEach(info => {
+          const div = document.createElement("div");
+          div.style.cssText = "background:#f9f9f9; padding:10px; margin-bottom:10px; border-radius:6px;";
+          div.innerHTML = `
+            <strong>${info.name}</strong><br>
+            📞 ${info.phone} | ☎️ ${info.altPhone}<br>
+            📍 ${info.locType === 'live' ? 'Live' : 'Manual'} - ${info.location}
+          `;
+          infoContainer.appendChild(div);
+        });
+      }
+
+      // Load cart items
+      const orderList = document.getElementById("orderList");
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+      if (cart.length === 0) {
+        orderList.innerHTML = "<li>No items in cart</li>";
+      } else {
+        cart.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = `${item.name} x ${item.qty}`;
+          orderList.appendChild(li);
+        });
+      }
+
+      // Send update buttons
+      document.querySelectorAll(".update-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          const now = new Date();
+          const formatted = now.toLocaleString("en-IN", {
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          });
+          const message = button.getAttribute("data-message");
+          localStorage.setItem("orderUpdate", JSON.stringify({ message, time: formatted }));
+          document.getElementById("updateStatus").textContent = "✅ Update sent: " + message;
+        });
+      });
+
+      // Mark as delivered
+      const markBtn = document.getElementById("markDeliveredBtn");
+      markBtn.addEventListener("click", () => {
+        localStorage.removeItem("cart");
+        localStorage.removeItem("orderUpdate");
+        localStorage.removeItem("customerInfoList");
+
+        deliveryContent.innerHTML = `
+          <div style="text-align: center; padding: 40px;">
+            <h3 style="color: green;">✅ Order marked as delivered.</h3>
+            <p>All customer data has been cleared.</p>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>
